@@ -19,7 +19,7 @@ public class Carro {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(table = "id")
+    @Column
     private Long id;
 
     @Column(name = "marca_carro", nullable = true, length = 100)
@@ -33,21 +33,6 @@ public class Carro {
 
     @Column(name = "placa_carro", nullable = false, length = 100)
     private String placaCarro;
-
-
-    // Campos de auditoria
-    @Column(name = "data_criacao")
-    private LocalDateTime dataCriacao;
-
-    @Column(name = "data_modificacao")
-    private LocalDateTime dataModificacao;
-
-    @Column(name = "criado_por")
-    private String criadoPor;
-
-    @Column(name = "modificado_por")
-    private String modificadoPor;
-
 
 
 }
