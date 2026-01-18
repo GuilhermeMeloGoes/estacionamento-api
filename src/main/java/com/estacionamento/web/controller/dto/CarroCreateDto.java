@@ -10,6 +10,8 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
+@Getter
+@Setter
 public class CarroCreateDto {
 
     @NotBlank
