@@ -25,10 +25,9 @@ public class CarroService {
     private final CarroRepository carroRepository;
 
     @Transactional
-    public Carro createCar (CarroCreateDto carroCreateDto){
+    public Carro createCar (Carro carro){
         
         try{
-            Carro carro = CarroMapper.toCarro(carroCreateDto);
             return carroRepository.save(carro);
         }catch (DataIntegrityViolationException ex){
             throw new UsernameUniqueViolationException( "A placa informada já existe no banco de dados.");
