@@ -36,11 +36,12 @@ public class CarroController {
 
     @PostMapping
     public ResponseEntity<CarroResponseDto> createCar(@Valid @RequestBody CarroCreateDto carroCreateDto) {
-        Carro carroCriado = carroService.createCar(carroCreateDto);
 
-        CarroResponseDto response = CarroMapper.toCarroResponseDto(carroCriado);
+        Carro carro = CarroMapper.toCarro(carroCreateDto);
+
+        Carro carroCriado = carroService.createCar(carro);
         
-        return ResponseEntity.status(HttpStatus.CREATED).body(response);
+        return ResponseEntity.status(HttpStatus.CREATED).body(CarroMapper.toCarroResponseDto(carroCriado));
     }
 
     @GetMapping("/{placaCarro}")
