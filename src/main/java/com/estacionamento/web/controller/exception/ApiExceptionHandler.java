@@ -1,5 +1,6 @@
 package com.estacionamento.web.controller.exception;
 
+import com.estacionamento.exception.CPFUniqueViolationException;
 import com.estacionamento.exception.EntityNotFoundException;
 import com.estacionamento.exception.PasswordInvalidException;
 import com.estacionamento.exception.UsernameUniqueViolationException;
@@ -31,7 +32,10 @@ public class ApiExceptionHandler {
                 .body(new ErrorMessage(request, HttpStatus.UNPROCESSABLE_ENTITY, "Campo(s) inválidos!", result));
     }
 
-    @ExceptionHandler(UsernameUniqueViolationException.class)
+    @ExceptionHandler({
+            UsernameUniqueViolationException.class,
+            CPFUniqueViolationException.class
+    })
     public ResponseEntity<ErrorMessage> usernameUniqueViolationException(UsernameUniqueViolationException ex,
                                                                          HttpServletRequest request) {
 
