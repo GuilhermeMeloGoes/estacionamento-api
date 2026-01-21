@@ -1,4 +1,4 @@
-package com.estacionamento.web.controller;
+package com.estacionamento.web.controller.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
