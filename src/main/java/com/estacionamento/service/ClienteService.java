@@ -1,19 +1,16 @@
 package com.estacionamento.service;
 
 import com.estacionamento.entity.Cliente;
-import com.estacionamento.entity.Usuario;
 import com.estacionamento.exception.CPFUniqueViolationException;
 import com.estacionamento.exception.EntityNotFoundException;
-import com.estacionamento.exception.UsernameUniqueViolationException;
 import com.estacionamento.repository.ClienteRepository;
+import com.estacionamento.repository.projection.ClienteProjection;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -39,7 +36,18 @@ public class ClienteService {
     }
 
     @Transactional(readOnly = true)
-    public Page<Cliente> buscarTodosOsClientes(Pageable pageable) {
-        return  clienteRepository.findAll(pageable);
+    public Page<ClienteProjection> buscarTodosOsClientes(Pageable pageable) {
+        return clienteRepository.findAllPageble(pageable);
+    }
+
+    @Transactional(readOnly = true)
+    public Cliente buscarDetalhesClientePorId(Long idUsuario) {
+        Cliente cliente = clienteRepository.findByUsuarioId(idUsuario);
+
+        if (cliente == null) {
+            throw new EntityNotFoundException(String.format("O cliente com o id %s, não está cadastrado no banco de dados.", idUsuario));
+        }
+
+        return cliente;
     }
 }
