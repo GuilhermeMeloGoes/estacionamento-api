@@ -1,9 +1,6 @@
 package com.estacionamento.web.controller.exception;
 
-import com.estacionamento.exception.CPFUniqueViolationException;
-import com.estacionamento.exception.EntityNotFoundException;
-import com.estacionamento.exception.PasswordInvalidException;
-import com.estacionamento.exception.UsernameUniqueViolationException;
+import com.estacionamento.exception.*;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -34,7 +31,8 @@ public class ApiExceptionHandler {
 
     @ExceptionHandler({
             UsernameUniqueViolationException.class,
-            CPFUniqueViolationException.class
+            CPFUniqueViolationException.class,
+            CodigoUniqueViolationException.class
     })
     public ResponseEntity<ErrorMessage> usernameUniqueViolationException(UsernameUniqueViolationException ex,
                                                                          HttpServletRequest request) {
