@@ -3,7 +3,13 @@ package com.estacionamento.web.controller.dto;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
+import lombok.*;
 
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@ToString
 public class VagaCreateDto {
 
     @NotBlank
@@ -11,6 +17,6 @@ public class VagaCreateDto {
     private String codigo;
 
     @NotBlank
-    @Pattern(regexp = "LIVRE | OCUPADA")
+    @Pattern(regexp = "LIVRE|OCUPADA")
     private String status;
 }

@@ -2,6 +2,7 @@ package com.estacionamento.web.controller.dto.mapper;
 
 import com.estacionamento.entity.Usuario;
 import com.estacionamento.entity.Vagas;
+import com.estacionamento.web.controller.dto.VagaCreateDto;
 import com.estacionamento.web.controller.dto.VagaResponseDto;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
@@ -10,7 +11,7 @@ import org.modelmapper.ModelMapper;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class VagaMapper {
 
-    public static Vagas toVaga(VagaResponseDto vagaResponseDto) {
+    public static Vagas toVaga(VagaCreateDto vagaResponseDto) {
         return new ModelMapper().map(vagaResponseDto, Vagas.class);
     }
 
