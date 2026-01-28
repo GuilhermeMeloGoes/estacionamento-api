@@ -23,10 +23,11 @@ import lombok.RequiredArgsConstructor;
 public class CarroService {
 
     private final CarroRepository carroRepository;
+    private final ClienteService clienteService;
+    private final VagaService vagaService;
 
     @Transactional
     public Carro createCar (Carro carro){
-        
         try{
             return carroRepository.save(carro);
         }catch (DataIntegrityViolationException ex){

@@ -9,8 +9,5 @@ import java.util.List;
 
 
 public interface CarroRepository extends JpaRepository<Carro,Long>{
-
     Optional<Carro> findByPlacaCarro(String placaCarro);
-
-    
 }
