@@ -14,9 +14,9 @@ import org.hibernate.validator.constraints.br.CPF;
 public class CarroCreateDto {
 
     @NotBlank
-    @Pattern(message = "Formato da placa inválido.", regexp = "^[A-Z]{3}[0-9][A-Z][0-9]{2}$")
-    @Size(min = 7, max = 8)
-    private String placaCArro;
+    @Pattern(message = "Formato da placa inválido.", regexp = "^[A-Z]{3}-[0-9][A-Z0-9][0-9]{2}$")
+    @Size(min = 8, max = 8)
+    private String placaCarro;
     
     @NotBlank
     private String marcaCarro;
