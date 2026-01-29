@@ -12,6 +12,7 @@ import com.estacionamento.web.controller.dto.mapper.CarroMapper;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
+import java.net.URI;
 import java.util.List;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
@@ -24,7 +25,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
-
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 
 @RestController
@@ -34,14 +35,18 @@ public class CarroController {
     
     private final CarroService carroService;
 
-    @PostMapping
+    @PostMapping("/check-in")
     public ResponseEntity<CarroResponseDto> createCar(@Valid @RequestBody CarroCreateDto carroCreateDto) {
 
         Carro carro = CarroMapper.toCarro(carroCreateDto);
+        Carro carroCriado = carroService.checkIn(carro);
+        CarroResponseDto carroResponseDto = CarroMapper.toCarroResponseDto(carroCriado);
 
-        Carro carroCriado = carroService.createCar(carro);
-        
-        return ResponseEntity.status(HttpStatus.CREATED).body(CarroMapper.toCarroResponseDto(carroCriado));
+        URI location = ServletUriComponentsBuilder
+                .fromCurrentRequest().path("/{recibo}")
+                .buildAndExpand(carro.getRecibo()).toUri();
+
+        return ResponseEntity.created(location).body(carroResponseDto);
     }
 
     @GetMapping("/{placaCarro}")

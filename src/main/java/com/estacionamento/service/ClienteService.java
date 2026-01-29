@@ -50,4 +50,12 @@ public class ClienteService {
 
         return cliente;
     }
+
+    @Transactional(readOnly = true)
+    public Cliente buscarClientePorCpf(String cpf) {
+        Cliente cliente = clienteRepository.findByCpf(cpf).orElseThrow(
+                () -> new EntityNotFoundException(String.format("Cliente com o cpf %s, não encontrado.", cpf))
+        );
+        return cliente;
+    }
 }

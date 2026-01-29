@@ -9,6 +9,8 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import static com.estacionamento.entity.enums.StatusVaga.LIVRE;
+
 @Service
 @RequiredArgsConstructor
 public class VagaService {
@@ -31,5 +33,10 @@ public class VagaService {
         );
     }
 
-
+    @Transactional(readOnly = true)
+    public Vagas buscarPorVagaLivre() {
+        return vagaRepository.findFirstByStatus(LIVRE).orElseThrow(
+                () -> new EntityNotFoundException(String.format("Estacionamento está lotado."))
+                );
+    }
 }

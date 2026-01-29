@@ -1,9 +1,14 @@
 package com.estacionamento.service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import javax.management.RuntimeErrorException;
 
+import com.estacionamento.entity.Cliente;
+import com.estacionamento.entity.Vagas;
+import com.estacionamento.entity.enums.StatusVaga;
+import com.estacionamento.utils.CarroUtils;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,32 +27,36 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class CarroService {
 
-    private final CarroRepository carroRepository;
+    private final ClienteVagaService clienteVagaService;
     private final ClienteService clienteService;
     private final VagaService vagaService;
 
     @Transactional
-    public Carro createCar (Carro carro){
-        try{
-            return carroRepository.save(carro);
-        }catch (DataIntegrityViolationException ex){
-            throw new UsernameUniqueViolationException( "A placa informada já existe no banco de dados.");
-        }
+    public Carro checkIn(Carro carro) {
+        Cliente cliente = clienteService.buscarClientePorCpf(carro.getCliente().getCpf());
+        carro.setCliente(cliente);
+
+        Vagas vaga = vagaService.buscarPorVagaLivre();
+        vaga.setStatus(StatusVaga.OCUPADA);
+        carro.setVaga(vaga);
+
+        carro.setDataEntrada(LocalDateTime.now());
+        carro.setRecibo(CarroUtils.gerarRecibo());
+
+        return clienteVagaService.criarVaga(carro);
     }
 
     @Transactional(readOnly = true)
-    public Carro findCarById (String placaCarro) {
+    public Carro findCarById(String placaCarro) {
         return carroRepository.findByPlacaCarro(placaCarro).orElseThrow(
                 () -> new EntityNotFoundException(String.format("Carro de id=%s não encontrado", placaCarro))
         );
     }
 
     @Transactional(readOnly = true)
-    public List<Carro> findAll(){
+    public List<Carro> findAll() {
         return carroRepository.findAll();
     }
 
-
-    
 
 }
