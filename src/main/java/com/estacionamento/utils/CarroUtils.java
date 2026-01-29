@@ -13,6 +13,6 @@ public class CarroUtils {
         LocalDateTime dataAtual = LocalDateTime.now();
         String recibo = dataAtual.toString().substring(0, 19);
         return recibo.replace("-", "").replace(":", "")
-                .replace("T", " ");
+                .replace("T", "-");
     }
 }
