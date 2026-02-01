@@ -1,5 +1,6 @@
 package com.estacionamento.service;
 
+import com.estacionamento.entity.Carro;
 import com.estacionamento.entity.Cliente;
 import com.estacionamento.exception.CPFUniqueViolationException;
 import com.estacionamento.exception.EntityNotFoundException;
@@ -19,11 +20,12 @@ public class ClienteService {
     private final ClienteRepository clienteRepository;
 
     @Transactional
-    public Cliente createClient(Cliente cliente) {
+    public void criarCliente(Cliente cliente) {
         try {
-            return clienteRepository.save(cliente);
+            clienteRepository.save(cliente);
         } catch (DataIntegrityViolationException ex) {
-            throw new CPFUniqueViolationException(String.format("O CPF %s, já está cadastrado na base de dados.", cliente.getCpf()));
+            throw new CPFUniqueViolationException(String.format("O CPF %s, já está cadastrado na base de dados.",
+                    cliente.getCpf()));
         }
 
     }

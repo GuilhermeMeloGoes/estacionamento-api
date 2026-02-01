@@ -34,12 +34,16 @@ public class ClienteController {
     private final ClienteService clienteService;
     private final UsuarioService usuarioService;
 
-    @Operation(summary = "Cadastrar o cliente.", description = "Requisição responsavel pelo cadastro do cliente.",
+    @Operation(summary = "Cadastrar o cliente com base no id do usuário.", description = "Requisição responsável pelo cadastro do cliente," +
+            " o método recebe como valores o nome completo do cliente e o CPF dele, e para vincular o usuário é passado o id.",
             responses = {
                     @ApiResponse(responseCode = "200", description = "Recurso criado com sucesso.",
                             content = @Content(mediaType = "application/json;charset=UTF-8",
                                     schema = @Schema(implementation = ClienteResponseDto.class))),
                     @ApiResponse(responseCode = "409", description = "O CPF do cliente já está cadastrado.",
+                            content = @Content(mediaType = "application/json;charset=UTF-8",
+                                    schema = @Schema(implementation = ErrorMessage.class))),
+                    @ApiResponse(responseCode = "422", description = "O recurso não pode ser finalizado por falta de dados ou dados inválidos.",
                             content = @Content(mediaType = "application/json;charset=UTF-8",
                                     schema = @Schema(implementation = ErrorMessage.class)))
             }
@@ -48,14 +52,14 @@ public class ClienteController {
     public ResponseEntity<ClienteResponseDto> cadastrarCliente(@RequestBody @Valid ClienteCreateDto clienteDto, @PathVariable Long idUsuario) {
         Cliente cliente = ClienteMapper.toCliente(clienteDto);
         cliente.setUsuario(usuarioService.findByIdUser(idUsuario));
-        clienteService.createClient(cliente);
+        clienteService.criarCliente(cliente);
 
         return ResponseEntity.status(201).body(ClienteMapper.toClienteResponseDto(cliente));
     }
 
-    @Operation(summary = "Buscar cliente por id.", description = "Requisição responsavel por devolver os dados do cliente.",
+    @Operation(summary = "Buscar cliente pelo id.", description = "Requisição responsavel por devolver os dados do cliente caso exita no banco de dados.",
             responses = {
-                    @ApiResponse(responseCode = "200", description = "Recurso recuperado com sucesso.",
+                    @ApiResponse(responseCode = "200", description = "Recurso localizado com sucesso.",
                             content = @Content(mediaType = "application/json;charset=UTF-8",
                                     schema = @Schema(implementation = ClienteResponseDto.class))),
                     @ApiResponse(responseCode = "404", description = "O cliente não foi encontrado no banco de dados.",
@@ -78,7 +82,7 @@ public class ClienteController {
                     @Parameter(in = ParameterIn.QUERY, name = "size",
                             content = @Content(schema = @Schema(type = "integer", defaultValue = "20")),
                             description = "Representa o número de elementos total por página."),
-                    @Parameter(in = ParameterIn.QUERY, name = "sort",
+                    @Parameter(in = ParameterIn.QUERY, name = "sort", hidden = true,
                             content = @Content(schema = @Schema(type = "string", defaultValue = "id,asc")),
                             description = "Representa a ordenação dos elementos na página. Aceita multiplos critérios de ordenação."),
 
@@ -100,11 +104,14 @@ public class ClienteController {
             responses = {
                     @ApiResponse(responseCode = "200", description = "Recurso recuperado com sucesso.",
                             content = @Content(mediaType = "application/json;charset=UTF-8",
-                                    schema = @Schema(implementation = ClienteResponseDto.class)))
+                                    schema = @Schema(implementation = ClienteResponseDto.class))),
+                    @ApiResponse(responseCode = "404", description = "O cliente não foi encontrado no banco de dados.",
+                            content = @Content(mediaType = "application/json;charset=UTF-8",
+                                    schema = @Schema(implementation = ErrorMessage.class)))
             }
     )
     @GetMapping("/detalhes/{idUsuario}")
-    public ResponseEntity<ClienteResponseDto> buscarDetalhesCliente(@PathVariable Long idUsuario) {
+    public ResponseEntity<ClienteResponseDto> buscarDetalhesClientePorId(@PathVariable Long idUsuario) {
         Cliente cliente = clienteService.buscarDetalhesClientePorId(idUsuario);
         return ResponseEntity.ok(ClienteMapper.toClienteResponseDto(cliente));
     }
