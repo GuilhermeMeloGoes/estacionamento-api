@@ -29,6 +29,7 @@ public class UsuarioMapper {
     }
 
     public static List<UsuarioResponseDto> toListUsuarioResponseDto(List<Usuario> usuarios) {
-       return usuarios.stream().map(usuario -> toUsuarioResponseDto(usuario)).collect(Collectors.toList());
+       // return usuarios.stream().map(usuario -> toUsuarioResponseDto(usuario)).collect(Collectors.toList());
+       return usuarios.stream().map(UsuarioMapper::toUsuarioResponseDto).collect(Collectors.toList());
     }
 }

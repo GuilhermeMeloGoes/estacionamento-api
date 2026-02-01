@@ -19,42 +19,42 @@ public class UsuarioService {
     private final UsuarioRepository usuarioRepository;
 
     @Transactional
-    public Usuario createUser(Usuario usuario) {
+    public Usuario criarUsuario(Usuario usuario) {
         try {
             return usuarioRepository.save(usuario);
         } catch (DataIntegrityViolationException ex) {
-            throw new UsernameUniqueViolationException("O e-mail informado, já está cadastrado no banco de dados.");
+            throw new UsernameUniqueViolationException(String.format("O e-mail %s informado, já está cadastrado no banco de dados.", usuario.getUsername()));
         }
 
     }
 
     @Transactional(readOnly = true)
-    public Usuario findByIdUser(Long idUsuario) {
+    public Usuario buscarUsuarioPorId(Long idUsuario) {
         return usuarioRepository.findById(idUsuario).orElseThrow(
                 () -> new EntityNotFoundException(String.format("Usuário de id=%s não encontrado.", idUsuario))
         );
     }
 
     @Transactional
-    public void updatePasswordUser(Long idUsuario, String senhaAtual, String novaSenha, String confirmaSenha) {
+    public void atualizarSenhaUsuario(Long idUsuario, String senhaAtual, String novaSenha, String confirmaSenha) {
         if (!novaSenha.equals(confirmaSenha)) {
             throw new PasswordInvalidException("Nova senha não confere com a confirmação de senha!");
         }
 
-        Usuario user = this.findByIdUser(idUsuario);
+        Usuario usuario = this.buscarUsuarioPorId(idUsuario);
 
-        if (!user.getPassword().equals(senhaAtual)) {
+        if (!usuario.getSenha().equals(senhaAtual)) {
             throw new PasswordInvalidException("A senha atual não confere!");
         }
 
-        user.setPassword(novaSenha);
-        usuarioRepository.save(user);
+        usuario.setSenha(novaSenha);
+        usuarioRepository.save(usuario);
 
 
     }
 
-
-    public List<Usuario> findAllUsers() {
+    @Transactional(readOnly = true)
+    public List<Usuario> buscarUsuarios() {
         return usuarioRepository.findAll();
     }
 }

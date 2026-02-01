@@ -41,7 +41,7 @@ public class UsuarioController {
     )
     @PostMapping
     public ResponseEntity<UsuarioResponseDto> create(@Valid @RequestBody UsuarioCreateDto usuarioCreateDto) {
-        Usuario usuarioCriado = usuarioService.createUser(UsuarioMapper.toUsuario(usuarioCreateDto));
+        Usuario usuarioCriado = usuarioService.criarUsuario(UsuarioMapper.toUsuario(usuarioCreateDto));
         return ResponseEntity.status(HttpStatus.CREATED).body(UsuarioMapper.toUsuarioResponseDto(usuarioCriado));
     }
 
@@ -54,8 +54,8 @@ public class UsuarioController {
             }
     )
     @GetMapping("/{idUsuario}")
-    public ResponseEntity<UsuarioResponseDto> findById(@PathVariable Long idUsuario) {
-        Usuario usuarioEncontrado = usuarioService.findByIdUser(idUsuario);
+    public ResponseEntity<UsuarioResponseDto> buscarUsuarioPorId(@PathVariable Long idUsuario) {
+        Usuario usuarioEncontrado = usuarioService.buscarUsuarioPorId(idUsuario);
         return ResponseEntity.ok(UsuarioMapper.toUsuarioResponseDto(usuarioEncontrado));
     }
 
@@ -71,8 +71,8 @@ public class UsuarioController {
             }
     )
     @PatchMapping("/{idUsuario}")
-    public ResponseEntity<Void> updatePassword(@PathVariable Long idUsuario, @Valid @RequestBody UsuarioSenhaDto usuarioSenhaDto) {
-        usuarioService.updatePasswordUser(idUsuario, usuarioSenhaDto.getSenhaAtual(), usuarioSenhaDto.getNovaSenha(), usuarioSenhaDto.getConfirmaSenha());
+    public ResponseEntity<Void> atualizarSenhaUsuario(@PathVariable Long idUsuario, @Valid @RequestBody UsuarioSenhaDto usuarioSenhaDto) {
+        usuarioService.atualizarSenhaUsuario(idUsuario, usuarioSenhaDto.getSenhaAtual(), usuarioSenhaDto.getNovaSenha(), usuarioSenhaDto.getConfirmaSenha());
         return ResponseEntity.noContent().build();
     }
 
@@ -83,8 +83,8 @@ public class UsuarioController {
             }
     )
     @GetMapping
-    public ResponseEntity<List<UsuarioResponseDto>> findAllUsers() {
-        List<Usuario> usuarios = usuarioService.findAllUsers();
+    public ResponseEntity<List<UsuarioResponseDto>> buscarUsuarios() {
+        List<Usuario> usuarios = usuarioService.buscarUsuarios();
         return ResponseEntity.ok(UsuarioMapper.toListUsuarioResponseDto(usuarios));
     }
 
