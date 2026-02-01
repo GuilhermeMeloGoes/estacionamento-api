@@ -1,7 +1,7 @@
 package com.estacionamento.exception;
 
 public class CodigoUniqueViolationException extends RuntimeException {
-    public CodigoUniqueViolationException(String s) {
-        super(s);
+    public CodigoUniqueViolationException(String mensagem) {
+        super(mensagem);
     }
 }

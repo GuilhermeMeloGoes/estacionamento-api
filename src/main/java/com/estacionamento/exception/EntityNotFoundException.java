@@ -1,7 +1,7 @@
 package com.estacionamento.exception;
 
 public class EntityNotFoundException extends RuntimeException {
-    public EntityNotFoundException(String s) {
-        super(s);
+    public EntityNotFoundException(String mensagem) {
+        super(mensagem);
     }
 }

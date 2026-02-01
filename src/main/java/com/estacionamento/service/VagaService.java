@@ -1,6 +1,6 @@
 package com.estacionamento.service;
 
-import com.estacionamento.entity.Vagas;
+import com.estacionamento.entity.Vaga;
 import com.estacionamento.exception.CodigoUniqueViolationException;
 import com.estacionamento.exception.EntityNotFoundException;
 import com.estacionamento.repository.VagaRepository;
@@ -18,25 +18,25 @@ public class VagaService {
     private final VagaRepository vagaRepository;
 
     @Transactional
-    public Vagas criarVaga(Vagas vagas) {
+    public Vaga criarVaga(Vaga vaga) {
         try {
-            return vagaRepository.save(vagas);
+            return vagaRepository.save(vaga);
         } catch (DataIntegrityViolationException e) {
-            throw new CodigoUniqueViolationException(String.format("Vaga com o código %s, já foi cadastrada!", vagas.getCodigo()));
+            throw new CodigoUniqueViolationException(String.format("Vaga com o código %s, já foi cadastrada!", vaga.getCodigo()));
         }
     }
 
     @Transactional(readOnly = true)
-    public Vagas buscarVagaPorCodigo(String codigo) {
+    public Vaga buscarVagaPorCodigo(String codigo) {
         return vagaRepository.findByCodigo(codigo).orElseThrow(
                 () -> new EntityNotFoundException(String.format("Vaga com o código %s, não encontrada.", codigo))
         );
     }
 
     @Transactional(readOnly = true)
-    public Vagas buscarPorVagaLivre() {
+    public Vaga buscarPorVagaLivre() {
         return vagaRepository.findFirstByStatus(LIVRE).orElseThrow(
                 () -> new EntityNotFoundException(String.format("Estacionamento está lotado."))
-                );
+        );
     }
 }

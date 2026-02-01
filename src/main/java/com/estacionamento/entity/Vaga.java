@@ -17,7 +17,7 @@ import java.util.Objects;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Vagas implements Serializable {
+public class Vaga implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -45,7 +45,7 @@ public class Vagas implements Serializable {
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
-        Vagas vagas = (Vagas) o;
+        Vaga vagas = (Vaga) o;
         return Objects.equals(id, vagas.id);
     }
 

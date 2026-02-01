@@ -1,6 +1,6 @@
 package com.estacionamento.web.controller;
 
-import com.estacionamento.entity.Vagas;
+import com.estacionamento.entity.Vaga;
 import com.estacionamento.service.VagaService;
 import com.estacionamento.web.controller.dto.VagaCreateDto;
 import com.estacionamento.web.controller.dto.VagaResponseDto;
@@ -23,7 +23,7 @@ import java.net.URI;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("api/v1/vagas")
-public class VagasController {
+public class VagaController {
 
     private final VagaService vagaService;
 
@@ -38,8 +38,7 @@ public class VagasController {
             })
     @PostMapping
     public ResponseEntity<Void> criarVagas(@RequestBody @Valid VagaCreateDto vagasDto) {
-        System.out.println(vagasDto);
-        Vagas vaga = VagaMapper.toVaga(vagasDto);
+        Vaga vaga = VagaMapper.toVaga(vagasDto);
         vagaService.criarVaga(vaga);
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest().path("/{codigo}")
@@ -58,7 +57,7 @@ public class VagasController {
 
     @GetMapping("/{codigo}")
     public ResponseEntity<VagaResponseDto> buscarVagaPorCodigo(@PathVariable String codigo) {
-        Vagas vaga = vagaService.buscarVagaPorCodigo(codigo);
+        Vaga vaga = vagaService.buscarVagaPorCodigo(codigo);
         return ResponseEntity.ok(VagaMapper.toVagaResponseDto(vaga));
     }
 }

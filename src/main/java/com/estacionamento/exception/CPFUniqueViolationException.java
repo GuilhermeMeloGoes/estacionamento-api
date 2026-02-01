@@ -1,7 +1,7 @@
 package com.estacionamento.exception;
 
 public class CPFUniqueViolationException extends RuntimeException {
-    public CPFUniqueViolationException(String message) {
-        super(message);
+    public CPFUniqueViolationException(String mensagem) {
+        super(mensagem);
     }
 }
