@@ -2,20 +2,12 @@ package com.estacionamento.web.controller.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import io.swagger.v3.core.util.Json;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.ToString;
-import org.hibernate.validator.constraints.br.CPF;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @NoArgsConstructor
@@ -23,11 +15,11 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class CarroResponseDto {
-    private String placaCArro;
-    private String marcaCarro;
-    private String modeloCarro;
-    private String corCarro;
+public class EstacionamentoResponseDto {
+    private String placa;
+    private String marca;
+    private String modelo;
+    private String cor;
     private String clienteCpf;
     private String recibo;
 

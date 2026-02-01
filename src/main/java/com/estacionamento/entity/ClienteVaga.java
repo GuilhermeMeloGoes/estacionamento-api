@@ -8,12 +8,12 @@ import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
-@Table(name = "carros")
+@Table(name = "clientes_tem_vagas")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Carro {
+public class ClienteVaga {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -53,7 +53,7 @@ public class Carro {
 
     @ManyToOne
     @JoinColumn(name = "id_vaga", nullable = false)
-    private Vagas vaga;
+    private Vaga vaga;
 
     @Column(name = "data_criacao")
     private LocalDateTime dataCriacao;
@@ -71,7 +71,7 @@ public class Carro {
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
-        Carro carro = (Carro) o;
+        ClienteVaga carro = (ClienteVaga) o;
         return Objects.equals(id, carro.id);
     }
 

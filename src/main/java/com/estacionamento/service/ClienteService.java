@@ -1,6 +1,5 @@
 package com.estacionamento.service;
 
-import com.estacionamento.entity.Carro;
 import com.estacionamento.entity.Cliente;
 import com.estacionamento.exception.CPFUniqueViolationException;
 import com.estacionamento.exception.EntityNotFoundException;
