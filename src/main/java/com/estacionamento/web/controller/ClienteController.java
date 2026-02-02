@@ -51,7 +51,7 @@ public class ClienteController {
     @PostMapping("/{idUsuario}")
     public ResponseEntity<ClienteResponseDto> cadastrarCliente(@RequestBody @Valid ClienteCreateDto clienteDto, @PathVariable Long idUsuario) {
         Cliente cliente = ClienteMapper.toCliente(clienteDto);
-        cliente.setUsuario(usuarioService.findByIdUser(idUsuario));
+        cliente.setUsuario(usuarioService.buscarUsuarioPorId(idUsuario));
         clienteService.criarCliente(cliente);
 
         return ResponseEntity.status(201).body(ClienteMapper.toClienteResponseDto(cliente));
